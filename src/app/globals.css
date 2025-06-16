@@ -4,7 +4,7 @@
 
 @layer base {
   .base-container {
-    @apply max-w-[400px] mx-auto;
+    @apply max-w-[600px] mx-auto;
   }
   :root {
     --background: 0 0% 100%;
@@ -114,5 +114,11 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .font-cafe24 {
+    font-family: var(--font-cafe24), system-ui, -apple-system, sans-serif;
   }
 }
