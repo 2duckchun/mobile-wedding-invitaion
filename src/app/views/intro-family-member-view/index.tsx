@@ -9,6 +9,12 @@ export const IntroFamilyMemberView = () => {
         <div className="bg-slate-100"></div>
         <div className="bg-neutral-200"></div>
       </section>
+      <div className="flex flex-col gap-1 my-5">
+        <p className="font-gowundodum text-center">우리가 맹세하는 자리에서</p>
+        <p className="font-gowundodum text-center">
+          축복을 빌어주시면 감사하겠습니다.
+        </p>
+      </div>
     </article>
   );
 };
