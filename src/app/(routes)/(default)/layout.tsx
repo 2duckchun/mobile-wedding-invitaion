@@ -1,4 +1,4 @@
-import { MainHeader } from "@/app/shared/widgets/layout/main-header";
+import { MainHeader } from "@/shared/widgets/layout/main-header";
 import { ReactNode } from "react";
 
 export default function DefaultLayout({ children }: { children: ReactNode }) {

@@ -1,4 +1,4 @@
-import { PhotoDescriptionContainer } from "@/app/shared/ui/photo-description-container";
+import { PhotoDescriptionContainer } from "@/shared/ui/photo-description-container";
 import Image from "next/image";
 
 export const SecondPhotoView = () => {
