@@ -90,9 +90,7 @@ export const MapView = () => {
   return (
     <article>
       <section className="flex flex-col gap-4">
-        <h3 className="text-2xl font-bold font-gowundodum text-center">
-          👰‍♀️ 찾아오시는 길 🤵‍♂️
-        </h3>
+        <h3 className="text-2xl font-bold text-center">👰‍♀️ 찾아오시는 길 🤵‍♂️</h3>
         <div className="w-full h-[400px]">
           <div id="map" className="w-full h-full" ref={mapRef}></div>
         </div>
