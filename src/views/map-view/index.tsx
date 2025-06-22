@@ -111,10 +111,40 @@ export const MapView = () => {
           >
             주소 복사
           </button>
-          <p className="inline-flex items-center justify-center gap-2 w-full max-w-xl mx-auto px-4 py-3 text-sm leading-relaxed text-center font-gowundodum text-amber-900 bg-amber-100 border border-amber-200 rounded-lg shadow-sm">
-            🚗 주차 공간이 협소할 수 있으니 — 가급적 대중교통을 이용해 주세요!
-          </p>
+          <div className="flex flex-col py-5">
+            {/* ⓐ 자차 안내 */}
+            <div>
+              <p className="inline-flex items-center gap-2 text-lg font-gowundodum">
+                <span role="img" aria-label="자동차">
+                  🚗
+                </span>{" "}
+                자차
+              </p>
+              <p className="mt-1 text-sm text-gray-600">
+                내비게이션 : 강동웨딩홀 검색 (서울시 강동구 천호대로 1077)
+              </p>
+            </div>
+
+            {/* ⓑ 대중교통 안내 */}
+            <div className="mt-4">
+              <p className="inline-flex items-center gap-2 text-lg font-gowundodum">
+                <span role="img" aria-label="지하철">
+                  🚇
+                </span>{" "}
+                대중교통
+              </p>
+              <p className="mt-1 text-sm text-gray-600">
+                강동역(5호선) : 3번 출구 도보 3분
+              </p>
+            </div>
+
+            {/* ⓒ 주차 공간 안내 */}
+            <div className="inline-flex items-center justify-center gap-2 w-full max-w-xl mx-auto px-4 py-3 text-sm leading-relaxed text-center font-gowundodum text-amber-900 bg-amber-100 border border-amber-200 rounded-lg shadow-sm mt-6">
+              🚗 주차 공간이 협소할 수 있으니 — 가급적 대중교통을 이용해 주세요!
+            </div>
+          </div>
         </div>
+
         <Script
           type="text/javascript"
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&libraries=services&autoload=false`}
