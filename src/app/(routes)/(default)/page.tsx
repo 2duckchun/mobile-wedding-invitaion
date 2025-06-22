@@ -5,6 +5,8 @@ import { WelcomeView } from "@/views/welcome-view";
 import { FirstPhotoView } from "@/views/first-photo-view";
 import { SecondPhotoView } from "@/views/second-photo-view";
 import { BlessingAccountView } from "@/views/blessing-account-view";
+import { CalendarView } from "@/views/calendar-view";
+import { ViewSeperator } from "@/shared/ui/view-seperator";
 
 export default function Home() {
   return (
@@ -12,9 +14,15 @@ export default function Home() {
       <WelcomeView />
       <FirstPhotoView />
       <SecondPhotoView />
-      <MapView />
+      <ViewSeperator />
       <IntroFamilyMemberView />
+      <ViewSeperator />
+      <CalendarView />
+      <ViewSeperator />
+      <MapView />
+      <ViewSeperator />
       <BlessingAccountView />
+      <ViewSeperator />
       <GuestCommentView />
     </div>
   );

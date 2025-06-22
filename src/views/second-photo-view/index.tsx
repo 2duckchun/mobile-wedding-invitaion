@@ -16,7 +16,7 @@ export const SecondPhotoView = () => {
         </div>
       }
       description={
-        <div className="flex flex-col gap-1 my-5">
+        <div className="flex flex-col gap-1 mt-5">
           <p className="font-gowundodum text-center">
             우리가 맹세하는 자리에 오셔서
           </p>
