@@ -4,6 +4,7 @@ import { MapView } from "@/views/map-view";
 import { WelcomeView } from "@/views/welcome-view";
 import { FirstPhotoView } from "@/views/first-photo-view";
 import { SecondPhotoView } from "@/views/second-photo-view";
+import { BlessingAccountView } from "@/views/blessing-account-view";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <SecondPhotoView />
       <MapView />
       <IntroFamilyMemberView />
+      <BlessingAccountView />
       <GuestCommentView />
     </div>
   );

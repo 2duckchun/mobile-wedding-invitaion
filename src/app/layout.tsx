@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${cafe24Font.variable} antialiased min-h-screen bg-gradient-to-r from-rose-100 via-rose-50 to-rose-200`}
+        className={`${cafe24Font.variable} font-gowundodum antialiased min-h-screen bg-gradient-to-r from-rose-100 via-rose-50 to-rose-200`}
       >
         {children}
       </body>

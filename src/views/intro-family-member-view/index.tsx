@@ -1,20 +1,40 @@
 export const IntroFamilyMemberView = () => {
   return (
-    <article>
-      <header className="sr-only">
-        <h2>양가 혼주 및 우리들 소개입니다.</h2>
-      </header>
-      <div>양가 혼주 및 우리들 소개</div>
-      <section className="h-[500px] bg-teal-200 grid grid-cols-2">
-        <div className="bg-slate-100"></div>
-        <div className="bg-neutral-200"></div>
+    <article className="w-full max-w-lg mx-auto font-gowundodum">
+      {/* 섹션 타이틀 */}
+      <h3 className="mb-6 text-center text-xl tracking-wide">
+        양가 혼주 및 우리들 소개
+      </h3>
+
+      <section className="space-y-6">
+        {/* ── 신랑 라인 ───────────────────────── */}
+        <div className="flex items-end justify-center flex-wrap gap-4 text-center">
+          <div className="flex items-end">
+            <p className="mt-1 text-base text-gray-700">
+              김종덕&nbsp;·&nbsp;김미희
+            </p>
+            <p className="text-sm text-gray-500">의&nbsp;차남</p>
+          </div>
+          <div>
+            {/* <p className="text-sm text-gray-500">신랑</p> */}
+            <p className="mt-1 text-md font-semibold text-slate-800">김태수</p>
+          </div>
+        </div>
+
+        {/* ── 신부 라인 ───────────────────────── */}
+        <div className="flex items-end justify-center flex-wrap gap-4 text-center">
+          <div className="flex items-end">
+            <p className="mt-1 text-base text-gray-700">
+              박호경&nbsp;·&nbsp;오주영
+            </p>
+            <p className="text-sm text-gray-500">의&nbsp;장녀</p>
+          </div>
+          <div>
+            {/* <p className="text-sm text-gray-500">신부</p> */}
+            <p className="mt-1 text-md font-semibold text-slate-800">박지영</p>
+          </div>
+        </div>
       </section>
-      <div className="flex flex-col gap-1 my-5">
-        <p className="font-gowundodum text-center">우리가 맹세하는 자리에서</p>
-        <p className="font-gowundodum text-center">
-          축복을 빌어주시면 감사하겠습니다.
-        </p>
-      </div>
     </article>
   );
 };
