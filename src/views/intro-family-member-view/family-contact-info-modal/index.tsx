@@ -67,15 +67,39 @@ export const FamilyContactInfoModal = ({
   );
 
   const groomContacts = [
-    { role: "신랑", name: "김태수", phone: "010-1234-5678" },
-    { role: "신랑 아버지", name: "김종덕", phone: "010-2345-6789" },
-    { role: "신랑 어머니", name: "김미희", phone: "010-3456-7890" },
+    {
+      role: "신랑",
+      name: "김태수",
+      phone: process.env.NEXT_PUBLIC_GROOM_PHONE!,
+    },
+    {
+      role: "신랑 아버지",
+      name: "김종덕",
+      phone: process.env.NEXT_PUBLIC_GROOM_FATHER_PHONE!,
+    },
+    {
+      role: "신랑 어머니",
+      name: "김미희",
+      phone: process.env.NEXT_PUBLIC_GROOM_MOTHER_PHONE!,
+    },
   ];
 
   const brideContacts = [
-    { role: "신부", name: "박지영", phone: "010-8765-4321" },
-    { role: "신부 아버지", name: "박호경", phone: "010-7654-3210" },
-    { role: "신부 어머니", name: "오주영", phone: "010-6543-2109" },
+    {
+      role: "신부",
+      name: "박지영",
+      phone: process.env.NEXT_PUBLIC_BRIDE_PHONE!,
+    },
+    {
+      role: "신부 아버지",
+      name: "박호경",
+      phone: process.env.NEXT_PUBLIC_BRIDE_FATHER_PHONE!,
+    },
+    {
+      role: "신부 어머니",
+      name: "오주영",
+      phone: process.env.NEXT_PUBLIC_BRIDE_MOTHER_PHONE!,
+    },
   ];
 
   return (
