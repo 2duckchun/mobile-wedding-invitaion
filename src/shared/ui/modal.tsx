@@ -1,5 +1,7 @@
+"use client";
+
 import { X } from "lucide-react";
-import { ReactNode } from "react";
+import { ReactNode, useCallback, useEffect } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -7,6 +9,7 @@ interface ModalProps {
   children: ReactNode;
   title?: string;
   showCloseButton?: boolean;
+  closeButtonIcon?: ReactNode;
   closeOnOverlayClick?: boolean;
 }
 
@@ -15,16 +18,35 @@ export const Modal = ({
   onClose,
   children,
   title,
+  closeButtonIcon = <X className="w-5 h-5" />,
   showCloseButton = true,
   closeOnOverlayClick = true,
 }: ModalProps) => {
-  if (!isOpen) return null;
-
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (closeOnOverlayClick && e.target === e.currentTarget) {
       onClose();
     }
   };
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    },
+    [onClose]
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [isOpen, onClose, handleKeyDown]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -35,7 +57,7 @@ export const Modal = ({
       />
 
       {/* 모달 컨텐츠 */}
-      <div className="relative bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
+      <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
         {/* 닫기 버튼 */}
         {showCloseButton && (
           <button
@@ -43,7 +65,7 @@ export const Modal = ({
             className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
             aria-label="닫기"
           >
-            <X className="w-5 h-5" />
+            {closeButtonIcon}
           </button>
         )}
 

@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/shared/ui/button";
-import { Modal } from "@/shared/ui/modal";
 import { PhoneCall } from "lucide-react";
 import { useState } from "react";
+import { FamilyContactInfoModal } from "./family-contact-info-modal";
 
 export const IntroFamilyMemberView = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,13 +66,7 @@ export const IntroFamilyMemberView = () => {
         </div>
       </article>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div>
-          <h3>연락처</h3>
-          <p>김태수: 010-1234-5678</p>
-          <p>박지영: 010-8765-4321</p>
-        </div>
-      </Modal>
+      <FamilyContactInfoModal isOpen={isModalOpen} onClose={closeModal} />
     </>
   );
 };
