@@ -37,10 +37,31 @@ export const Modal = ({
     [onClose]
   );
 
+  // 모달이 열려있을 때 body 스크롤 방지
   useEffect(() => {
     if (isOpen) {
+      // 현재 스크롤 위치 저장
+      const scrollY = window.scrollY;
+
+      // body에 overflow: hidden 적용
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+
+      // 키보드 이벤트 리스너 추가
       document.addEventListener("keydown", handleKeyDown);
+
       return () => {
+        // cleanup: body 스크롤 복원
+        document.body.style.overflow = "";
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+
+        // 스크롤 위치 복원
+        window.scrollTo(0, scrollY);
+
         document.removeEventListener("keydown", handleKeyDown);
       };
     }

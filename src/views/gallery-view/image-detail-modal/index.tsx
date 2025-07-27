@@ -1,7 +1,7 @@
 import { Modal } from "@/shared/ui/modal";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ImageDetailModalProps {
   isOpen: boolean;
@@ -17,6 +17,12 @@ export const ImageDetailModal = ({
   initialIndex,
 }: ImageDetailModalProps) => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [mouseStart, setMouseStart] = useState<number | null>(null);
+  const [mouseEnd, setMouseEnd] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   // initialIndex가 변경될 때 currentIndex 업데이트
   useEffect(() => {
@@ -41,6 +47,103 @@ export const ImageDetailModal = ({
     }
   };
 
+  // 터치 이벤트 핸들러 (모바일)
+  const handleTouchStart = (e: TouchEvent) => {
+    e.preventDefault();
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    e.preventDefault();
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: TouchEvent) => {
+    e.preventDefault();
+
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      goToNext();
+    } else if (isRightSwipe) {
+      goToPrevious();
+    }
+
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // 마우스 이벤트 핸들러 (데스크탑)
+  const handleMouseDown = (e: MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    setMouseStart(e.clientX);
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    setMouseEnd(e.clientX);
+  };
+
+  const handleMouseUp = (e: MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+
+    if (!mouseStart || !mouseEnd) return;
+
+    const distance = mouseStart - mouseEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      goToNext();
+    } else if (isRightSwipe) {
+      goToPrevious();
+    }
+
+    setIsDragging(false);
+    setMouseStart(null);
+    setMouseEnd(null);
+  };
+
+  // 이벤트 리스너 추가
+  useEffect(() => {
+    const imageElement = imageRef.current;
+    if (!imageElement) return;
+
+    // 터치 이벤트 (모바일)
+    imageElement.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+    });
+    imageElement.addEventListener("touchmove", handleTouchMove, {
+      passive: false,
+    });
+    imageElement.addEventListener("touchend", handleTouchEnd, {
+      passive: false,
+    });
+
+    // 마우스 이벤트 (데스크탑)
+    imageElement.addEventListener("mousedown", handleMouseDown);
+    imageElement.addEventListener("mousemove", handleMouseMove);
+    imageElement.addEventListener("mouseup", handleMouseUp);
+    imageElement.addEventListener("mouseleave", handleMouseUp);
+
+    return () => {
+      imageElement.removeEventListener("touchstart", handleTouchStart);
+      imageElement.removeEventListener("touchmove", handleTouchMove);
+      imageElement.removeEventListener("touchend", handleTouchEnd);
+      imageElement.removeEventListener("mousedown", handleMouseDown);
+      imageElement.removeEventListener("mousemove", handleMouseMove);
+      imageElement.removeEventListener("mouseup", handleMouseUp);
+      imageElement.removeEventListener("mouseleave", handleMouseUp);
+    };
+  }, [touchStart, touchEnd, mouseStart, mouseEnd, isDragging]);
+
   if (!isOpen) return null;
 
   const currentImage = images[currentIndex];
@@ -58,12 +161,17 @@ export const ImageDetailModal = ({
         </button>
 
         {/* 이미지 */}
-        <div className="relative w-full h-[70vh]">
+        <div
+          ref={imageRef}
+          className={`relative w-full h-[70vh] ${
+            isDragging ? "cursor-grabbing" : "cursor-grab"
+          }`}
+        >
           <Image
             src={currentImage.src}
             alt={currentImage.alt}
             fill
-            className="object-contain"
+            className="object-contain pointer-events-none"
             priority
           />
         </div>
@@ -71,7 +179,7 @@ export const ImageDetailModal = ({
         {/* 네비게이션 버튼 */}
         <button
           onClick={goToPrevious}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+          className="absolute left-4 bottom-20 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
           aria-label="이전 이미지"
         >
           <ChevronLeft className="w-6 h-6 text-white" />
@@ -79,7 +187,7 @@ export const ImageDetailModal = ({
 
         <button
           onClick={goToNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+          className="absolute right-4 bottom-20 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
           aria-label="다음 이미지"
         >
           <ChevronRight className="w-6 h-6 text-white" />

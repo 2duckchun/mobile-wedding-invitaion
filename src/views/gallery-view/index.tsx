@@ -46,7 +46,7 @@ export const GalleryView = () => {
       alt: "Wedding photo 4",
     },
     {
-      src: "https://cdn.pixabay.com/photo/2016/01/14/00/26/horse-1139142_1280.jpg",
+      src: "https://cdn.pixabay.com/photo/2025/06/19/07/59/allgau-9668453_1280.jpg",
       alt: "Wedding photo 5",
     },
     {
