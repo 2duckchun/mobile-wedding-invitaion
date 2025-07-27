@@ -30,40 +30,56 @@ export const GalleryView = () => {
 
   const galleryImages = [
     {
-      src: "https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg",
+      src: "/images/gallery/001.jpg",
       alt: "Wedding photo 1",
     },
     {
-      src: "https://cdn.pixabay.com/photo/2017/04/03/00/16/shire-horse-2197214_1280.jpg",
+      src: "/images/gallery/002.jpg",
       alt: "Wedding photo 2",
     },
     {
-      src: "https://cdn.pixabay.com/photo/2015/10/25/21/25/horse-1006376_1280.jpg",
+      src: "/images/gallery/003.jpg",
       alt: "Wedding photo 3",
     },
     {
-      src: "https://cdn.pixabay.com/photo/2016/01/14/00/26/horse-1139142_1280.jpg",
+      src: "/images/gallery/004.jpg",
       alt: "Wedding photo 4",
     },
     {
-      src: "https://cdn.pixabay.com/photo/2025/06/19/07/59/allgau-9668453_1280.jpg",
+      src: "/images/gallery/005.jpg",
       alt: "Wedding photo 5",
     },
     {
-      src: "https://cdn.pixabay.com/photo/2019/03/09/17/30/horse-4044547_1280.jpg",
+      src: "/images/gallery/006.jpg",
       alt: "Wedding photo 6",
     },
     {
-      src: "https://cdn.pixabay.com/photo/2016/11/06/22/58/horse-1804425_1280.jpg",
+      src: "/images/gallery/007.jpg",
       alt: "Wedding photo 7",
     },
     {
-      src: "https://cdn.pixabay.com/photo/2014/12/04/23/05/horse-557261_1280.jpg",
+      src: "/images/gallery/008.jpg",
       alt: "Wedding photo 8",
     },
     {
-      src: "https://cdn.pixabay.com/photo/2014/08/15/22/48/cowgirl-419084_1280.jpg",
+      src: "/images/gallery/009.jpg",
       alt: "Wedding photo 9",
+    },
+    {
+      src: "/images/gallery/010.jpg",
+      alt: "Wedding photo 10",
+    },
+    {
+      src: "/images/gallery/011.jpg",
+      alt: "Wedding photo 11",
+    },
+    {
+      src: "/images/gallery/012.jpg",
+      alt: "Wedding photo 12",
+    },
+    {
+      src: "/images/gallery/013.jpg",
+      alt: "Wedding photo 13",
     },
   ];
 

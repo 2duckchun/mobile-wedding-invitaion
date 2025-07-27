@@ -11,6 +11,7 @@ interface ModalProps {
   showCloseButton?: boolean;
   closeButtonIcon?: ReactNode;
   closeOnOverlayClick?: boolean;
+  galleryView?: boolean;
 }
 
 export const Modal = ({
@@ -18,6 +19,7 @@ export const Modal = ({
   onClose,
   children,
   title,
+  galleryView = false,
   closeButtonIcon = <X className="w-5 h-5" />,
   showCloseButton = true,
   closeOnOverlayClick = true,
@@ -78,7 +80,11 @@ export const Modal = ({
       />
 
       {/* 모달 컨텐츠 */}
-      <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+      <div
+        className={`relative bg-white rounded-lg shadow-xl w-full mx-4 ${
+          galleryView ? "max-w-4xl" : "max-w-md"
+        }`}
+      >
         {/* 닫기 버튼 */}
         {showCloseButton && (
           <button

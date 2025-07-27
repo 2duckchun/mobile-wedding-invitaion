@@ -162,7 +162,12 @@ export const ImageDetailModal = ({
   const currentImage = images[currentIndex];
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} showCloseButton={false}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      showCloseButton={false}
+      galleryView={true}
+    >
       <div className="relative bg-black rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
         {/* 닫기 버튼 */}
         <button
