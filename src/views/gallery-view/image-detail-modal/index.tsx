@@ -1,7 +1,7 @@
 import { Modal } from "@/shared/ui/modal";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface ImageDetailModalProps {
   isOpen: boolean;
@@ -22,6 +22,7 @@ export const ImageDetailModal = ({
   const [mouseStart, setMouseStart] = useState<number | null>(null);
   const [mouseEnd, setMouseEnd] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
   const imageRef = useRef<HTMLDivElement>(null);
 
   // initialIndex가 변경될 때 currentIndex 업데이트
@@ -29,38 +30,33 @@ export const ImageDetailModal = ({
     setCurrentIndex(initialIndex);
   }, [initialIndex]);
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
+  }, [images.length]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "ArrowLeft") {
-      goToPrevious();
-    } else if (e.key === "ArrowRight") {
-      goToNext();
-    } else if (e.key === "Escape") {
-      onClose();
-    }
-  };
+  }, [images.length]);
 
   // 터치 이벤트 핸들러 (모바일)
-  const handleTouchStart = (e: TouchEvent) => {
-    e.preventDefault();
-    setTouchStart(e.targetTouches[0].clientX);
-  };
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+    setDragOffset(0);
+  }, []);
 
-  const handleTouchMove = (e: TouchEvent) => {
-    e.preventDefault();
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      setTouchEnd(e.touches[0].clientX);
 
-  const handleTouchEnd = (e: TouchEvent) => {
-    e.preventDefault();
+      if (touchStart) {
+        const offset = e.touches[0].clientX - touchStart;
+        setDragOffset(offset * 0.3);
+      }
+    },
+    [touchStart]
+  );
 
+  const handleTouchEnd = useCallback(() => {
     if (!touchStart || !touchEnd) return;
 
     const distance = touchStart - touchEnd;
@@ -75,30 +71,48 @@ export const ImageDetailModal = ({
 
     setTouchStart(null);
     setTouchEnd(null);
-  };
+    setDragOffset(0);
+  }, [touchStart, touchEnd, goToNext, goToPrevious]);
 
   // 마우스 이벤트 핸들러 (데스크탑)
-  const handleMouseDown = (e: MouseEvent) => {
-    e.preventDefault();
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    console.log("Mouse down - setting isDragging to true");
     setIsDragging(true);
     setMouseStart(e.clientX);
-  };
+    setDragOffset(0);
+  }, []);
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isDragging) return;
+      console.log("Mouse move - isDragging:", isDragging);
+      e.preventDefault();
+      setMouseEnd(e.clientX);
+
+      if (mouseStart) {
+        const offset = e.clientX - mouseStart;
+        setDragOffset(offset * 0.3);
+      }
+    },
+    [isDragging, mouseStart]
+  );
+
+  const handleMouseUp = useCallback(() => {
+    console.log("Mouse up - isDragging:", isDragging);
     if (!isDragging) return;
-    e.preventDefault();
-    setMouseEnd(e.clientX);
-  };
-
-  const handleMouseUp = (e: MouseEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-
-    if (!mouseStart || !mouseEnd) return;
+    if (!mouseStart || !mouseEnd) {
+      console.log("Click detected - no drag");
+      setIsDragging(false);
+      setMouseStart(null);
+      setMouseEnd(null);
+      setDragOffset(0);
+      return;
+    }
 
     const distance = mouseStart - mouseEnd;
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
+    console.log("Drag detected - distance:", distance);
 
     if (isLeftSwipe) {
       goToNext();
@@ -109,40 +123,39 @@ export const ImageDetailModal = ({
     setIsDragging(false);
     setMouseStart(null);
     setMouseEnd(null);
-  };
+    setDragOffset(0);
+  }, [isDragging, mouseStart, mouseEnd, goToNext, goToPrevious]);
 
-  // 이벤트 리스너 추가
+  const handleMouseLeave = useCallback(() => {
+    console.log("Mouse leave - isDragging:", isDragging);
+    if (isDragging) {
+      setIsDragging(false);
+      setMouseStart(null);
+      setMouseEnd(null);
+      setDragOffset(0);
+    }
+  }, [isDragging]);
+
+  // 키보드 이벤트 리스너 추가
   useEffect(() => {
-    const imageElement = imageRef.current;
-    if (!imageElement) return;
+    const handleKeyDownEvent = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        goToPrevious();
+      } else if (e.key === "ArrowRight") {
+        goToNext();
+      } else if (e.key === "Escape") {
+        onClose();
+      }
+    };
 
-    // 터치 이벤트 (모바일)
-    imageElement.addEventListener("touchstart", handleTouchStart, {
-      passive: false,
-    });
-    imageElement.addEventListener("touchmove", handleTouchMove, {
-      passive: false,
-    });
-    imageElement.addEventListener("touchend", handleTouchEnd, {
-      passive: false,
-    });
-
-    // 마우스 이벤트 (데스크탑)
-    imageElement.addEventListener("mousedown", handleMouseDown);
-    imageElement.addEventListener("mousemove", handleMouseMove);
-    imageElement.addEventListener("mouseup", handleMouseUp);
-    imageElement.addEventListener("mouseleave", handleMouseUp);
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDownEvent);
+    }
 
     return () => {
-      imageElement.removeEventListener("touchstart", handleTouchStart);
-      imageElement.removeEventListener("touchmove", handleTouchMove);
-      imageElement.removeEventListener("touchend", handleTouchEnd);
-      imageElement.removeEventListener("mousedown", handleMouseDown);
-      imageElement.removeEventListener("mousemove", handleMouseMove);
-      imageElement.removeEventListener("mouseup", handleMouseUp);
-      imageElement.removeEventListener("mouseleave", handleMouseUp);
+      document.removeEventListener("keydown", handleKeyDownEvent);
     };
-  }, [touchStart, touchEnd, mouseStart, mouseEnd, isDragging]);
+  }, [isOpen, goToPrevious, goToNext, onClose]);
 
   if (!isOpen) return null;
 
@@ -154,7 +167,7 @@ export const ImageDetailModal = ({
         {/* 닫기 버튼 */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+          className="absolute top-4 right-4 z-20 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
           aria-label="닫기"
         >
           <X className="w-6 h-6 text-white" />
@@ -166,12 +179,21 @@ export const ImageDetailModal = ({
           className={`relative w-full h-[70vh] ${
             isDragging ? "cursor-grabbing" : "cursor-grab"
           }`}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onClick={() => console.log("Image container clicked!")}
         >
           <Image
             src={currentImage.src}
             alt={currentImage.alt}
             fill
-            className="object-contain pointer-events-none"
+            className="object-contain pointer-events-none transition-transform duration-75"
+            style={{ transform: `translateX(${dragOffset}px)` }}
             priority
           />
         </div>
@@ -179,7 +201,7 @@ export const ImageDetailModal = ({
         {/* 네비게이션 버튼 */}
         <button
           onClick={goToPrevious}
-          className="absolute left-4 bottom-20 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+          className="absolute left-4 bottom-20 z-20 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
           aria-label="이전 이미지"
         >
           <ChevronLeft className="w-6 h-6 text-white" />
@@ -187,14 +209,14 @@ export const ImageDetailModal = ({
 
         <button
           onClick={goToNext}
-          className="absolute right-4 bottom-20 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+          className="absolute right-4 bottom-20 z-20 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
           aria-label="다음 이미지"
         >
           <ChevronRight className="w-6 h-6 text-white" />
         </button>
 
         {/* 이미지 정보 */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 z-10">
           <div className="text-center">
             <p className="text-white text-lg font-medium">{currentImage.alt}</p>
             <p className="text-gray-300 text-sm mt-1">
@@ -202,15 +224,6 @@ export const ImageDetailModal = ({
             </p>
           </div>
         </div>
-
-        {/* 키보드 이벤트 리스너 */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              document.addEventListener('keydown', ${handleKeyDown.toString()});
-            `,
-          }}
-        />
       </div>
     </Modal>
   );
