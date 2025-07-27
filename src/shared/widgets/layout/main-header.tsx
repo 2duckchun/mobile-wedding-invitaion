@@ -1,4 +1,17 @@
+"use client";
+
+import { scrollToElement, scrollToTop } from "@/lib/scroll-action";
+import { CONTACT_INFO_ID, WEDDING_PLACE_ID } from "@/shared/constant";
+
 export const MainHeader = () => {
+  const scrollToWeddingPlace = () => {
+    scrollToElement(WEDDING_PLACE_ID);
+  };
+
+  const scrollToContactInfo = () => {
+    scrollToElement(CONTACT_INFO_ID);
+  };
+
   return (
     <header
       className="base-container sticky top-0 z-10 h-header bg-white"
@@ -14,6 +27,13 @@ export const MainHeader = () => {
             role="button"
             tabIndex={0}
             aria-label="신랑 신부 이름"
+            onClick={scrollToTop}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                scrollToTop();
+              }
+            }}
           >
             태수&지영
           </span>
@@ -24,6 +44,13 @@ export const MainHeader = () => {
             role="button"
             tabIndex={0}
             aria-label="오시는 길 안내"
+            onClick={scrollToWeddingPlace}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                scrollToWeddingPlace();
+              }
+            }}
           >
             오시는 길
           </span>
@@ -34,6 +61,13 @@ export const MainHeader = () => {
             role="button"
             tabIndex={0}
             aria-label="연락처 정보"
+            onClick={scrollToContactInfo}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                scrollToContactInfo();
+              }
+            }}
           >
             연락처
           </span>

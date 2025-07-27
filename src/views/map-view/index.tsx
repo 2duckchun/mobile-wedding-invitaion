@@ -1,5 +1,6 @@
 "use client";
 
+import { WEDDING_PLACE_ID } from "@/shared/constant";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 
@@ -88,7 +89,7 @@ export const MapView = () => {
   }, [loaded]);
 
   return (
-    <article>
+    <article id={WEDDING_PLACE_ID}>
       <section className="flex flex-col gap-4">
         <h3 className="text-2xl font-bold text-center">👰‍♀️ 찾아오시는 길 🤵‍♂️</h3>
         <div className="w-full h-[400px]">

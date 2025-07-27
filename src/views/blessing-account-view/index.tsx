@@ -1,5 +1,7 @@
 "use client";
 
+import { CONTACT_INFO_ID } from "@/shared/constant";
+
 export const BlessingAccountView = () => {
   // ⚠️ 복사 로직은 재사용할 수 있도록 함수로 분리
   const copyToClipboard = async (text: string) => {
@@ -12,7 +14,10 @@ export const BlessingAccountView = () => {
   };
 
   return (
-    <article className="w-full max-w-lg mx-auto font-gowundodum">
+    <article
+      className="w-full max-w-lg mx-auto font-gowundodum"
+      id={CONTACT_INFO_ID}
+    >
       {/* 섹션 타이틀 */}
       <h3 className="mb-8 text-center text-xl tracking-wide">마음 전하실 곳</h3>
 
