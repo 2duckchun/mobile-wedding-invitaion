@@ -77,7 +77,7 @@ export const BlessingAccountView = () => {
       <h3 className="mb-8 text-center text-xl tracking-wide">마음 전하실 곳</h3>
       <div className="mb-4 text-sm text-gray-500 text-center space-y-2">
         <p>
-          멀리서도 축하의 안내를 보내주실 분을 위해 <br /> 계좌번호를
+          멀리서도 축하의 인사를 보내주실 분을 위해 <br /> 계좌번호를
           안내드립니다.
         </p>
         <p>따뜻한 마음에 진심으로 감사드립니다.</p>
