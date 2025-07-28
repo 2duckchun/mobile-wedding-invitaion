@@ -3,10 +3,11 @@
 import { WEDDING_PLACE_ID } from "@/shared/constant";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
+import { MiniMapModal } from "./mini-map-modal";
 
 export const MapView = () => {
   const mapRef = useRef<HTMLDivElement>(null);
-
+  const [isOpen, setIsOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -99,13 +100,7 @@ export const MapView = () => {
           <button
             className="relative inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold tracking-wide border shadow-md hover:shadow-lg transition duration-150 ease-out before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-white/10 before:backdrop-blur-sm"
             onClick={() => {
-              navigator.clipboard
-                .writeText("서울 강동구 천호대로 1077")
-                .then(() => alert("주소가 복사되었습니다."))
-                .catch((err) => {
-                  console.error("클립보드 복사 실패:", err);
-                  alert("복사에 실패했습니다. 브라우저 설정을 확인해 주세요.");
-                });
+              setIsOpen(true);
             }}
           >
             약도 보기
@@ -165,6 +160,7 @@ export const MapView = () => {
           onLoad={() => setLoaded(true)}
         ></Script>
       </section>
+      <MiniMapModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </article>
   );
 };

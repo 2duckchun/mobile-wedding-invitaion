@@ -89,7 +89,7 @@ export const Modal = ({
         {showCloseButton && (
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="absolute top-4 z-50 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
             aria-label="닫기"
           >
             {closeButtonIcon}
