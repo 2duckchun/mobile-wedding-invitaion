@@ -17,11 +17,6 @@ export const WelcomeView = () => {
           <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-white/95 via-white/70 to-transparent pointer-events-none" />
         </div>
       </section>
-      <div className="flex flex-col gap-1 my-5">
-        <p className="font-gowundodum text-center">새로운 시작을 맞이하는</p>
-        <p className="font-gowundodum text-center">지영이와 태수의 결혼식에</p>
-        <p className="font-gowundodum text-center">당신을 초대합니다.</p>
-      </div>
     </article>
   );
 };
