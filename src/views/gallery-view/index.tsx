@@ -31,55 +31,63 @@ export const GalleryView = () => {
   const galleryImages = [
     {
       src: "/images/gallery/001.jpg",
-      alt: "Wedding photo 1",
+      alt: "수줍은 태수와 지영입니다.",
     },
     {
       src: "/images/gallery/002.jpg",
-      alt: "Wedding photo 2",
+      alt: "저와 결혼해주세요!",
     },
     {
       src: "/images/gallery/003.jpg",
-      alt: "Wedding photo 3",
+      alt: "가끔 와인도 한잔 하고요.",
     },
     {
       src: "/images/gallery/004.jpg",
-      alt: "Wedding photo 4",
+      alt: "고급스럽게도 다닌답니다.",
     },
     {
       src: "/images/gallery/005.jpg",
-      alt: "Wedding photo 5",
+      alt: "우리 부부는 책을 좋아해요.",
     },
     {
       src: "/images/gallery/006.jpg",
-      alt: "Wedding photo 6",
+      alt: "행복",
     },
     {
       src: "/images/gallery/007.jpg",
-      alt: "Wedding photo 7",
+      alt: "사랑",
     },
     {
       src: "/images/gallery/008.jpg",
-      alt: "Wedding photo 8",
+      alt: "귀염",
     },
     {
       src: "/images/gallery/009.jpg",
-      alt: "Wedding photo 9",
+      alt: "둘이 함께 만든 멋진 사랑입니다.",
     },
     {
       src: "/images/gallery/010.jpg",
-      alt: "Wedding photo 10",
+      alt: "서로와 함께 풍성하게 넘치는 삶!",
     },
     {
       src: "/images/gallery/011.jpg",
-      alt: "Wedding photo 11",
+      alt: "11월 22일에 새로이 시작합니다!",
     },
     {
       src: "/images/gallery/012.jpg",
-      alt: "Wedding photo 12",
+      alt: "신랑이 넣고싶어서 넣은 사진 1",
     },
     {
       src: "/images/gallery/013.jpg",
-      alt: "Wedding photo 13",
+      alt: "신랑이 넣고싶어서 넣은 사진 2",
+    },
+    {
+      src: "/images/gallery/014.jpg",
+      alt: "우리, 아름답고 즐겁게 살겠습니다!",
+    },
+    {
+      src: "/images/gallery/015.jpg",
+      alt: "축복해주셔서 감사합니다!",
     },
   ];
 
