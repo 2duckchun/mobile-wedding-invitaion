@@ -86,7 +86,7 @@ export const GalleryView = () => {
       alt: "우리, 아름답고 즐겁게 살겠습니다!",
     },
     {
-      src: "/images/gallery/015.jpg",
+      src: "/images/gallery/0015.jpg",
       alt: "축복해주셔서 감사합니다!",
     },
   ];
