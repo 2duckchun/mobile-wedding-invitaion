@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { scrollToElement, scrollToTop } from "@/lib/scroll-action";
-import { CONTACT_INFO_ID, WEDDING_PLACE_ID } from "@/shared/constant";
+import { GUESTBOOK_ID, WEDDING_PLACE_ID } from "@/shared/constant";
 
 export const MainHeader = () => {
   const [scrollPercent, setScrollPercent] = useState(0);
@@ -12,8 +12,8 @@ export const MainHeader = () => {
     scrollToElement(WEDDING_PLACE_ID);
   };
 
-  const scrollToContactInfo = () => {
-    scrollToElement(CONTACT_INFO_ID);
+  const scrollToGuestbook = () => {
+    scrollToElement(GUESTBOOK_ID);
   };
 
   useEffect(() => {
@@ -90,16 +90,16 @@ export const MainHeader = () => {
               className="inline-block transition hover:scale-105 font-semibold active:scale-95 cursor-pointer"
               role="button"
               tabIndex={0}
-              aria-label="연락처 정보"
-              onClick={scrollToContactInfo}
+              aria-label="방명록"
+              onClick={scrollToGuestbook}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  scrollToContactInfo();
+                  scrollToGuestbook();
                 }
               }}
             >
-              마음 전하실 곳
+              방명록
             </span>
           </li>
         </ul>
