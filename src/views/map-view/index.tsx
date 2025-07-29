@@ -58,7 +58,7 @@ export const MapView = () => {
           >
             <div style="margin-bottom: 2px;">💒 <strong>강동웨딩홀</strong></div>
             <div id="copy-address" style="font-size: 11px; color: #7b5e43;">
-              서울 강동구 천호대로 1077
+              서울 강동구 천호대로 1102
             </div>
           </div>
         `;
@@ -68,7 +68,7 @@ export const MapView = () => {
             .querySelector("#copy-address")!
             .addEventListener("click", () => {
               navigator.clipboard
-                .writeText("서울 강동구 천호대로 1077")
+                .writeText("서울 강동구 천호대로 1102")
                 .then(() => alert("주소가 복사되었습니다."))
                 .catch((err) => {
                   console.error("클립보드 복사 실패:", err);
@@ -109,7 +109,7 @@ export const MapView = () => {
             className="relative inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold tracking-wide text-white bg-rose-400 hover:bg-rose-500 shadow-md hover:shadow-lg transition duration-150 ease-out before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-white/10 before:backdrop-blur-sm"
             onClick={() => {
               navigator.clipboard
-                .writeText("서울 강동구 천호대로 1077")
+                .writeText("서울 강동구 천호대로 1102")
                 .then(() => alert("주소가 복사되었습니다."))
                 .catch((err) => {
                   console.error("클립보드 복사 실패:", err);
@@ -129,7 +129,7 @@ export const MapView = () => {
                 자차
               </p>
               <p className="mt-1 text-sm text-gray-600">
-                내비게이션 : 강동웨딩홀 검색 (서울시 강동구 천호대로 1077)
+                내비게이션 : 강동웨딩홀 검색 (서울시 강동구 천호대로 1102)
               </p>
             </div>
 
