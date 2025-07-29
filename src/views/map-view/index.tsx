@@ -131,6 +131,7 @@ export const MapView = () => {
               <p className="mt-1 text-sm text-gray-600">
                 내비게이션 : 강동웨딩홀 검색 (서울시 강동구 천호대로 1102)
               </p>
+              <p className="mt-1 text-sm text-gray-600">1시간 30분 주차 무료</p>
             </div>
 
             {/* ⓑ 대중교통 안내 */}
