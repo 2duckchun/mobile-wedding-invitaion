@@ -1,7 +1,7 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
-import { hashPassword } from "@/utils/hash-password";
+import { createClient } from "@/lib/supabase/server";
+import { hashPassword } from "@/lib/hash-password";
 
 export async function deleteMessage(id: string, password: string) {
   const supabase = await createClient();

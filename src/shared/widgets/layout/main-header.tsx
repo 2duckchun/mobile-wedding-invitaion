@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { scrollToElement, scrollToTop } from "@/lib/scroll-action";
 import { GUESTBOOK_ID, WEDDING_PLACE_ID } from "@/shared/constant";
+import { throttle } from "@/lib/throttle";
 
 export const MainHeader = () => {
   const [scrollPercent, setScrollPercent] = useState(0);
-  const throttleTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const scrollToWeddingPlace = () => {
     scrollToElement(WEDDING_PLACE_ID);
@@ -25,16 +25,8 @@ export const MainHeader = () => {
       setScrollPercent(percent);
     };
 
-    const throttledScroll = () => {
-      if (throttleTimeout.current === null) {
-        throttleTimeout.current = setTimeout(() => {
-          handleScroll();
-          throttleTimeout.current = null;
-        }, 30);
-      }
-    };
+    const throttledScroll = throttle(handleScroll, 30);
 
-    // 초기 상태 계산
     handleScroll();
 
     window.addEventListener("scroll", throttledScroll);

@@ -1,7 +1,7 @@
 "use server";
 
-import { hashPassword } from "@/utils/hash-password";
-import { createClient } from "@/utils/supabase/server";
+import { hashPassword } from "@/lib/hash-password";
+import { createClient } from "@/lib/supabase/server";
 
 export async function submitMessage(
   name: string,
