@@ -4,9 +4,11 @@ import { Separator } from "@radix-ui/react-separator";
 export const ViewSeperator = ({
   className,
   children,
+  isTransparent = false,
 }: {
   className?: string;
   children?: React.ReactNode;
+  isTransparent?: boolean;
 }) => {
   return (
     <>
@@ -15,7 +17,10 @@ export const ViewSeperator = ({
       >
         <Separator
           orientation="vertical"
-          className={"h-[50px] text-center w-[1px] bg-gray-500/50"}
+          className={cn(
+            "h-[50px] text-center w-[1px] bg-gray-500/50",
+            isTransparent && "bg-transparent"
+          )}
         />
       </div>
       {children}
