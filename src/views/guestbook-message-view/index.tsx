@@ -15,16 +15,10 @@ const pageSize = 5;
 export const GuestbookMessageView = () => {
   const [page, setPage] = useState(1);
 
-  const {
-    data: messages,
-    total,
-    isLoading,
-    error,
-    refetch,
-  } = useGetGuestbookMessage({
-    currentPage: page,
-    pageSize,
-  });
+  const { messages, isLoading, error, refetch } = useGetGuestbookMessage(
+    page,
+    pageSize
+  );
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -73,7 +67,7 @@ export const GuestbookMessageView = () => {
     }월 ${date.getDate()}일`;
   };
 
-  const totalPages = Math.ceil(total / pageSize) || 1;
+  const totalPages = Math.ceil((messages?.total || 0) / pageSize) || 1;
 
   if (error) return <div>Error: {error.message}</div>;
 
@@ -95,7 +89,7 @@ export const GuestbookMessageView = () => {
         ) : (
           <div className="bg-[#fdfcf7] rounded-xl shadow-md px-6 py-4 border border-[#e8e6da]">
             <div className="divide-y divide-[#e2dfd2]">
-              {messages.map((msg) => (
+              {messages?.data.map((msg) => (
                 <div key={msg.id} className="py-4">
                   <div className="flex justify-between items-start gap-2">
                     <p className="text-[15px] leading-relaxed text-[#4c443c] font-[500] whitespace-pre-wrap break-words break-all w-full font-['Noto_Serif_KR']">
