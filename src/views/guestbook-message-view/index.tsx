@@ -11,12 +11,8 @@ const pageSize = 3;
 
 export const GuestbookMessageView = () => {
   const [page, setPage] = useState(1);
-  const { messages, isLoading, error, refetch } = useGetGuestbookMessage(
-    page,
-    pageSize
-  );
-
-  const totalPages = Math.ceil((messages?.total || 0) / pageSize) || 1;
+  const { messages, isLoading, error, refetch, totalPages } =
+    useGetGuestbookMessage(page, pageSize);
 
   if (error) return <div>Error: {error.message}</div>;
 
