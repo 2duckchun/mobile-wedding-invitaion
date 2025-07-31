@@ -20,10 +20,12 @@ export const useGetGuestbookMessage = (
     initialData: { data: [], total: 0, success: true, message: "" },
   });
 
+  const totalPages = Math.ceil((messages?.total || 0) / pageSize) || 1;
   return {
     messages,
     isLoading,
     error,
     refetch,
+    totalPages,
   };
 };

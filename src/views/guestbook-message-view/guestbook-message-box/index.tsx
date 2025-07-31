@@ -1,6 +1,7 @@
-import { deleteMessage } from "@/domain/guestbook-message/actions/delete-message";
 import { GuestbookMessage } from "@/domain/guestbook-message/schema";
 import { X } from "lucide-react";
+import { GuestbookMessageDeleteModal } from "./guestbook-message-delete-modal";
+import { useState } from "react";
 
 type GuestbookMessageBoxProps = {
   messageList: Pick<
@@ -14,18 +15,10 @@ export const GuestbookMessageBox = ({
   messageList,
   onDelete,
 }: GuestbookMessageBoxProps) => {
-  const handleDelete = async (id: string) => {
-    const pw = prompt("메시지 삭제를 위해 비밀번호를 입력해주세요");
-    if (!pw) return;
-
-    const res = await deleteMessage(id, pw);
-    if (res.success) {
-      alert("메시지가 삭제되었습니다.");
-      onDelete();
-    } else {
-      alert(res.message);
-    }
-  };
+  const [targetMessage, setTargetMessage] = useState<Pick<
+    GuestbookMessage,
+    "id"
+  > | null>(null);
 
   return (
     <div className="divide-y divide-[#e2dfd2]">
@@ -37,7 +30,7 @@ export const GuestbookMessageBox = ({
             </p>
             <X
               aria-label="삭제"
-              onClick={() => handleDelete(msg.id)}
+              onClick={() => setTargetMessage(msg)}
               className="cursor-pointer w-4 h-4 text-gray-400 hover:text-[#6c5f43] mt-1"
             />
           </div>
@@ -47,6 +40,17 @@ export const GuestbookMessageBox = ({
           </div>
         </div>
       ))}
+      {targetMessage && (
+        <GuestbookMessageDeleteModal
+          id={targetMessage.id}
+          isOpen={!!targetMessage}
+          onClose={() => setTargetMessage(null)}
+          onDelete={() => {
+            setTargetMessage(null);
+            onDelete();
+          }}
+        />
+      )}
     </div>
   );
 };
