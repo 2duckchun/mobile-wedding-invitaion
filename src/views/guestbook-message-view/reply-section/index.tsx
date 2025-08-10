@@ -5,8 +5,19 @@ import { useGetGuestbookReplies } from "@/domain/guestbook-message/hooks/use-get
 import { GuestbookPagination } from "../guestbook-pagination";
 import { GuestbookMessageForm } from "../guestbook-message-form";
 import { Button } from "@/shared/ui/button";
+import { GuestbookMessage } from "@/domain/guestbook-message/schema";
+import { GuestbookMessageDeleteModal } from "../guestbook-message-box/guestbook-message-delete-modal";
+import { X } from "lucide-react";
 
-export function ReplySection({ parentId }: { parentId: string }) {
+export function ReplySection({
+  parentId,
+  onSubmitted,
+  onDeleted,
+}: {
+  parentId: string;
+  onSubmitted?: () => void;
+  onDeleted?: () => void;
+}) {
   const [page, setPage] = useState(1);
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
   const pageSize = 3;
@@ -19,28 +30,32 @@ export function ReplySection({ parentId }: { parentId: string }) {
       <div className="text-red-500 text-sm">답글을 불러오지 못했어요.</div>
     );
 
+  const list = messages?.data ?? [];
+
+  const handleDeleted = async () => {
+    if (list.length <= 1 && page > 1) {
+      setPage((p) => p - 1);
+    }
+    await refetch();
+    onDeleted?.();
+  };
+
   return (
     <div className="mt-3 pl-4 border-l border-[#e2dfd2] space-y-3">
       {/* 목록 */}
       {isLoading ? (
         <ReplySkeleton />
-      ) : (messages?.data ?? []).length === 0 ? (
+      ) : list.length === 0 ? (
         <div className="text-[13px] text-[#8b8377]">아직 답글이 없어요.</div>
       ) : (
         <div className="space-y-3">
-          {messages?.data.map((r) => (
-            <div key={r.id} className="py-2">
-              <div className="text-[14px] text-[#4c443c] whitespace-pre-wrap break-words break-all font-['Noto_Serif_KR']">
-                {r.message}
-              </div>
-              <div className="text-right text-[12px] text-[#8b8377] font-['Noto_Serif_KR']">
-                <p>{r.name}</p>
-                <p>{formatDate(r.created_at)}</p>
-              </div>
-            </div>
+          {list.map((r) => (
+            <ReplyItem key={r.id} reply={r} onDeleted={handleDeleted} />
           ))}
         </div>
       )}
+
+      {/* 작성 폼 토글 */}
       {!isSubmitOpen && (
         <Button
           className="w-full"
@@ -50,6 +65,8 @@ export function ReplySection({ parentId }: { parentId: string }) {
           답글 작성!
         </Button>
       )}
+
+      {/* 작성 폼 */}
       {isSubmitOpen && (
         <GuestbookMessageForm
           isLoading={isLoading}
@@ -57,6 +74,8 @@ export function ReplySection({ parentId }: { parentId: string }) {
           onSuccess={() => {
             setPage(1);
             refetch();
+            setIsSubmitOpen(false);
+            onSubmitted?.();
           }}
         />
       )}
@@ -67,6 +86,51 @@ export function ReplySection({ parentId }: { parentId: string }) {
         totalPages={totalPages}
         setPage={setPage}
       />
+    </div>
+  );
+}
+
+function ReplyItem({
+  reply,
+  onDeleted,
+}: {
+  reply: Pick<
+    GuestbookMessage,
+    "id" | "name" | "message" | "created_at" | "parent_id"
+  >;
+  onDeleted: () => void;
+}) {
+  const [openDelete, setOpenDelete] = useState(false);
+
+  return (
+    <div className="py-4">
+      <div className="flex justify-between items-start gap-2">
+        <p className="text-[14px] text-[#4c443c] whitespace-pre-wrap break-words break-all">
+          {reply.message}
+        </p>
+        <X
+          aria-label="삭제"
+          onClick={() => setOpenDelete(true)}
+          className="cursor-pointer w-4 h-4 text-gray-400 hover:text-[#6c5f43] mt-1"
+        />
+      </div>
+
+      <div className="text-right text-[12px] mt-3 space-y-1 text-[#8b8377]">
+        <p>{reply.name}</p>
+        <p>{formatDate(reply.created_at)}</p>
+      </div>
+
+      {openDelete && (
+        <GuestbookMessageDeleteModal
+          id={reply.id}
+          isOpen={openDelete}
+          onClose={() => setOpenDelete(false)}
+          onDelete={() => {
+            setOpenDelete(false);
+            onDeleted?.();
+          }}
+        />
+      )}
     </div>
   );
 }
