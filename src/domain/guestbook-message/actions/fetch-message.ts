@@ -31,6 +31,7 @@ export async function fetchMessages(
   const { data, error, count } = await supabase
     .from("guestbook_messages")
     .select("id, name, message, created_at", { count: "exact" })
+    .is("parent_id", null)
     .order("created_at", { ascending: false })
     .range(from, to);
 
