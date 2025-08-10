@@ -2,6 +2,7 @@ import { GuestbookMessage } from "@/domain/guestbook-message/schema";
 import { X } from "lucide-react";
 import { GuestbookMessageDeleteModal } from "./guestbook-message-delete-modal";
 import { useState } from "react";
+import { ReplySection } from "../reply-section";
 
 type GuestbookMessageBoxProps = {
   messageList: Pick<
@@ -19,6 +20,10 @@ export const GuestbookMessageBox = ({
     GuestbookMessage,
     "id"
   > | null>(null);
+  const [openParents, setOpenParents] = useState<Record<string, boolean>>({});
+  const isOpen = (pid: string) => Boolean(openParents[pid]);
+  const toggleOpen = (pid: string) =>
+    setOpenParents((s) => ({ ...s, [pid]: !s[pid] }));
 
   return (
     <div className="divide-y divide-[#e2dfd2]">
@@ -37,6 +42,16 @@ export const GuestbookMessageBox = ({
           <div className="text-right mt-3 space-y-1 text-[13px] text-[#8b8377] font-light font-['Noto_Serif_KR']">
             <p>{msg.name}</p>
             <p>{formatDate(msg.created_at)}</p>
+          </div>
+          <div className="mt-3 pl-4 border-l border-[#e2dfd2]">
+            <button
+              onClick={() => toggleOpen(msg.id)}
+              className="text-[13px] text-[#6c5f43] hover:underline"
+            >
+              {isOpen(msg.id) ? "답글 숨기기" : "답글 보기"}
+            </button>
+
+            {isOpen(msg.id) && <ReplySection parentId={msg.id} />}
           </div>
         </div>
       ))}
